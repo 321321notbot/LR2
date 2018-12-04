@@ -3,27 +3,33 @@
 #include <fstream>
 #include <sstream>
 using namespace std;
-void Exception(string *name, int e)
-{
-	fstream file(name[e]);
-	if
-		(!file.is_open()) cout << "Not open\n"; // если не открылся
-	else if
-		(file.peek() == EOF) cout << "File empty\n"; // если первый символ конец файла
-}
+
 void sss(string *name, int e)
 {
 	string line;//slovo
 	stringstream ss;	//strokovyi potoK	
-	ifstream in(name[e]);
-			int cnt = 1;//count
+	ifstream in;
+	in.exceptions(ifstream::failbit);
+	try
+	{
+		in.open(name[e]);
+		int cnt = 1;//count
 			while (getline(in, line, '.')) {//schitivaem po 1 predlojeniuy
 				if (line.find(',') == string::npos) {	//esli net zapyatih
 					ss << line << '\n';	//viviod v potok
 				}
 			}
 			cout << ss.str();// vivodim predlojenie	
-			in.close();//file close		
+			in.close();//file close	
+	}
+			catch(const ifstream::failure& exc)
+			{
+			
+	          cout<<"Error while opening file:" << endl
+				  <<exc.what()<< endl<<endl;
+			}
+
+
 }
 int main(){
 	setlocale(LC_ALL, "");
@@ -37,30 +43,29 @@ int main(){
 		switch (getchar())		{
 		case '1':		{
 			e = 0;
-			Exception(name, e);
+		
 		    sss(name, e);
 		    break;		}
 		case '2':		{
 			e = 1;
-			Exception(name, e);
+			
 			sss(name, e);		}
 		case '3':	{
 			e = 2;
-			Exception(name, e);
+			
      		sss(name, e);
 			break;	}
 		case '4':	{
 			e = 3;
-			Exception(name, e);
+			
 			sss(name, e);
 			break;	}
 		case '5':		{
 			e = 4;
-			Exception(name, e);
+			
 			sss(name, e);
 			break;	}
 		case '6':
 			cout << "Exit" << endl;
 			exit(EXIT_SUCCESS);}}
-	return 0;}
-
+return 0;}
